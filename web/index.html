@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>居家服务历程分型台</title><link rel="stylesheet" href="/style.css"></head>
-<body><header><span>教研数据 · 复核工作区</span><h1>居家服务历程分型台</h1><p>按户排列的服务接触历程</p></header>
+<body><header><span>教研数据 · 复核工作区</span><h1>居家服务历程分型台</h1><p>按户排列的服务接触历程与可版本化的历程分型</p></header>
 <main><aside><h2>数据与范围</h2><label>数据版本<select id="revision"></select></label><div id="controls"></div>
 <button id="inspect">查看所选范围</button><label>导入完整数据<input id="upload" type="file" accept=".json,application/json"></label>
 <button id="raw">查看原始记录</button><h2>分析记录</h2><label>记录名称<input id="title" value="本次复核"></label>
@@ -10,4 +10,34 @@
 <h2>按户排列的服务接触历程</h2><div id="notes"></div><canvas id="chart" width="960" height="300" aria-label="所选范围描述图"></canvas>
 <div class="table-wrap"><table><thead id="columns"></thead><tbody id="rows"></tbody></table></div>
 <h2 id="detail-heading">记录与依据</h2><pre id="details">点击记录行可查看详细字段。</pre><button id="export">导出当前记录</button>
-</section></main><footer>仅使用本地虚构记录；描述统计不替代研究设计与业务复核。</footer><script src="/app.js"></script></body></html>
+
+<h2 class="typology-heading">历程分型（学习 → 人工命名 → 接访应用）</h2>
+<div class="typology-panel">
+  <div class="typology-actions">
+    <div class="train-controls">
+      <label>自助重抽样次数<input id="train-bootstraps" type="number" min="10" max="200" value="40"></label>
+      <label>指定类数（留空按轮廓与稳定性选择）<input id="train-k" type="number" min="2" max="8" placeholder="自动"></label>
+      <button id="train">在所选数据版本上训练分型</button>
+    </div>
+    <div class="model-controls">
+      <label>已发布分型版本<select id="model-select"></select></label>
+      <button id="show-stability">查看稳定性验证报告</button>
+      <button id="show-names">查看命名版本历史</button>
+    </div>
+  </div>
+  <div id="typology-status" class="sub-status">尚未选择分型版本。训练只读取当前选定的不可变数据版本。</div>
+  <div id="k-selection"></div>
+  <div id="cluster-cards"></div>
+  <div id="naming-box"></div>
+</div>
+
+<h2 class="typology-heading">新记录接访归类</h2>
+<div class="typology-panel">
+  <div class="assign-controls">
+    <label>待归类户标识（留空则归类资料内全部户）<input id="assign-household" placeholder="如 H999"></label>
+    <label>上传待归类完整资料（留空则使用分型训练数据）<input id="assign-file" type="file" accept=".json,application/json"></label>
+    <button id="assign">放入已发布分型</button>
+  </div>
+  <div id="assign-result"></div>
+</div>
+</section></main><footer>仅使用本地虚构记录；描述统计不替代研究设计与业务复核。分型类别名称属于人工命名版本，新数据训练不会重排旧名称。</footer><script src="/app.js"></script></body></html>

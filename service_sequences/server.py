@@ -40,6 +40,17 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(200, self.workbench.store.dataset(revision))
             if parsed.path == "/api/notebooks":
                 return self.send(200, self.workbench.store.notebooks())
+            if parsed.path == "/api/models":
+                return self.send(200, self.workbench.list_models())
+            if parsed.path.startswith("/api/models/"):
+                parts = parsed.path.strip("/").split("/")
+                model_id = parts[2]
+                if len(parts) == 3:
+                    return self.send(200, self.workbench.get_model(model_id))
+                if len(parts) == 4 and parts[3] == "stability":
+                    return self.send(200, self.workbench.model_stability_report(model_id))
+                if len(parts) == 4 and parts[3] == "names":
+                    return self.send(200, self.workbench.naming_history(model_id))
             if parsed.path.startswith("/api/notebooks/"):
                 identifier = parsed.path.rsplit("/", 1)[-1]
                 return self.send(200, self.workbench.store.notebook(identifier))
@@ -65,6 +76,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(201, self.workbench.upload(body))
             if self.path == "/api/notebooks":
                 return self.send(201, self.workbench.save(body))
+            if self.path == "/api/models/train":
+                return self.send(201, self.workbench.fit_typology(body))
+            if self.path == "/api/models/name":
+                return self.send(201, self.workbench.name_typology(body))
+            if self.path == "/api/models/assign":
+                return self.send(201, self.workbench.assign_household(body))
             self.send(404, {"error": "路径不存在"})
         except LookupError as error:
             self.send(404, {"error": str(error)})

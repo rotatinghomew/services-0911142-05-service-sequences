@@ -1,0 +1,28 @@
+{
+  "name": "居家服务历程分型台",
+  "focus": "按户排列的服务接触历程",
+  "options": [
+    [
+      "cohort",
+      "登记月份",
+      [
+        "early",
+        "late"
+      ]
+    ],
+    [
+      "channel",
+      "接访渠道",
+      [
+        "all",
+        "community",
+        "home"
+      ]
+    ]
+  ],
+  "selection": {
+    "cohort": "early",
+    "channel": "all"
+  },
+  "purpose": "社会服务分析资料复核"
+}
